@@ -4,17 +4,17 @@
 # APP IS TESTED WITH JEST
 # APP HAS SWAGGER DOCUMENTATION
 
-USEFUL TIPS AND COMMANDS 
+__USEFUL TIPS AND COMMANDS__
 
 
-1.AFTER CLONING REPOSITORY RUN "npm install" command to install dependencies
-2.RUN FILES WITH "npm run" command
-3.start server with "npm start" command
-4.TEST APP WITH JEST USING "npm test" command
-5.YOU CAN ALSO TEST API ENDPOINTS IN POSTMAN
-6.ACCESS THE API DOCUMENTATION TO http://localhost:4000/api-docs/
+1.AFTER CLONING REPOSITORY RUN __npm install__ command to install dependencies<br>
+2.RUN FILES WITH __npm run__ command<br>
+3.start server with __npm start__ command<br>
+4.TEST APP WITH JEST USING __npm test__ command<br>
+5.YOU CAN ALSO TEST API ENDPOINTS IN POSTMAN<br>
+6.ACCESS THE API DOCUMENTATION TO __http://localhost:4000/api-docs/__<br>
 
 
 
-# HAPPY CODING 
+__HAPPY CODING__
 
