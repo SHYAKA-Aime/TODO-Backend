@@ -15,7 +15,7 @@ dotenv.config();
 
 const app = express();
 const port =4000;
-const mongoURI ='mongodb+srv://shyaka:shyaka123@cluster0.9c4xwmb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const mongoURI ='mongodb+srv://shyaka:shyaka123@cluster0.zykzoej.mongodb.net/';
 
 mongoose.connect(process.env.MONGODB_URI, {
   
