@@ -11,7 +11,7 @@
     "testEnvironment": "node"
   },
   "keywords": [],
-  "author": "",
+  "author": "SHYAKA Aime",
   "license": "ISC",
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
