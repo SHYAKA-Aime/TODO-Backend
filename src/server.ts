@@ -343,7 +343,7 @@ app.delete('/todos/:id', authenticateUser, async (req: CustomRequest, res: Respo
     }
     res.status(200).json({ message: 'TODO item deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to delete TODO item' });
+    res.status(500).json({ message: 'OOPs, Failed to delete TODO item' });
   }
 });
 
