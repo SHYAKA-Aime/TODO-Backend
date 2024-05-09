@@ -55,7 +55,7 @@ app.get('/', async (req: CustomRequest, res: Response) => {
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch TODO items' });
   }
-});
+}
 
 
 

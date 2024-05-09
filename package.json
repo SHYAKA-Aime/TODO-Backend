@@ -6,7 +6,7 @@
     "start": "ts-node src/server.ts",
     "test": "echo Running tests... && jest",
     "lint-staged": "lint-staged",
-   "precommit": "lint-staged"
+    "precommit": "lint-staged"
   },
   "jest": {
     "preset": "ts-jest",
@@ -50,7 +50,7 @@
   },
   "husky": {
     "hooks": {
-      "precommit": "lint-staged && npm test"
+      "pre-commit": "lint-staged && npm test"
     }
   },
   "lint-staged": {
@@ -59,6 +59,5 @@
       "git add"
     ]
   },
-  
   "description": ""
 }
