@@ -342,7 +342,7 @@ app.put('/todos/:id', authenticateUser, async (req: CustomRequest, res: Response
     }
     res.status(200).json(todo);
   } catch (error) {
-    res.status(500).json({ message: 'Opps, Failed to update TODO item' });
+    res.status(500).json({ message: 'Failed to update TODO item' });
   }
 });
 
