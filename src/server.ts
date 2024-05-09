@@ -166,6 +166,33 @@ app.post('/login', async (req: Request, res: Response) => {
   }
 });
 
+
+
+app.get('/userinfo', async(req:Request , res:Response)=>{
+    try {
+      const token = req.headers.authorization?.split(' ')[1]; // Extract token from Authorization header
+      if (!token) {
+        res.status(401).json({ message: 'Unauthorized' });
+        return;
+      }
+  
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET || '') as { id: string }; // Verify token
+      const userId = decodedToken.id;
+  
+      const user = await User.findById(userId);
+      if (!user) {
+        res.status(404).json({ message: 'User not found' });
+        return;
+      }
+  
+      res.status(200).json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 // Middleware to authenticate user
 const authenticateUser = async (req: CustomRequest, res: Response, next: NextFunction) => {
   const token = req.headers.authorization?.split(' ')[1];
@@ -253,16 +280,19 @@ app.post('/todos', authenticateUser, async (req: CustomRequest, res: Response) =
  *         description: Failed to fetch TODO items
  */
 
-app.get('/todos', authenticateUser, async (req: CustomRequest, res: Response) => {
+app.get('/todos/:userId', authenticateUser, async (req: CustomRequest, res: Response) => {
   try {
-    const todos = await Todo.find({ userId: req.userId });
+    const userId = req.params.userId;
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+
+    const todos = await Todo.find({ userId:userId });
     res.status(200).json(todos);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch TODO items' });
   }
 });
-
-
 
 
 // Update a TODO item
