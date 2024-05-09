@@ -15,7 +15,7 @@ dotenv.config();
 
 const app = express();
 const port =4000;
-const mongoURI ='mongodb+srv://shyaka:shyaka123@cluster0.zykzoej.mongodb.net/';
+const mongoURI ='mongodb://localhost:27017/todo';
 
 mongoose.connect(process.env.MONGODB_URI, {
   
@@ -31,6 +31,16 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use(express.json());
 // Serve Swagger UI at /api-docs endpoint
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
+
+
 
 interface CustomRequest extends Request {
   userId?: string;
@@ -77,7 +87,7 @@ app.get('/', async (req: CustomRequest, res: Response) => {
 
 // User signup
 app.post('/signup', async (req: CustomRequest, res: Response) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -86,10 +96,10 @@ app.post('/signup', async (req: CustomRequest, res: Response) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ email, password: hashedPassword });
+    const user = new User({ name, email, password: hashedPassword });
     await user.save();
 
-    res.status(201).json({ message: 'User created successfully' });
+    res.status(201).json({ message: 'User created successfully',user });
   } catch (error) {
     console.error('Failed to create user:', error);
     res.status(500).json({ message: 'Failed to create user' });
@@ -149,12 +159,39 @@ app.post('/login', async (req: Request, res: Response) => {
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET || 'secret');
-    res.status(200).json({ token });
+    res.status(200).json({ message: 'Login Successfully', token });
   } catch (error) {
     console.error('Login failed:', error);
     res.status(500).json({ message: 'Login failed' });
   }
 });
+
+
+
+app.get('/userinfo', async(req:Request , res:Response)=>{
+    try {
+      const token = req.headers.authorization?.split(' ')[1]; // Extract token from Authorization header
+      if (!token) {
+        res.status(401).json({ message: 'Unauthorized' });
+        return;
+      }
+  
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET || '') as { id: string }; // Verify token
+      const userId = decodedToken.id;
+  
+      const user = await User.findById(userId);
+      if (!user) {
+        res.status(404).json({ message: 'User not found' });
+        return;
+      }
+  
+      res.status(200).json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 
 // Middleware to authenticate user
 const authenticateUser = async (req: CustomRequest, res: Response, next: NextFunction) => {
@@ -243,16 +280,19 @@ app.post('/todos', authenticateUser, async (req: CustomRequest, res: Response) =
  *         description: Failed to fetch TODO items
  */
 
-app.get('/todos', authenticateUser, async (req: CustomRequest, res: Response) => {
+app.get('/todos/:userId', authenticateUser, async (req: CustomRequest, res: Response) => {
   try {
-    const todos = await Todo.find({ userId: req.userId });
+    const userId = req.params.userId;
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+
+    const todos = await Todo.find({ userId:userId });
     res.status(200).json(todos);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch TODO items' });
   }
 });
-
-
 
 
 // Update a TODO item
