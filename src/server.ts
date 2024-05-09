@@ -344,7 +344,7 @@ app.put('/todos/:id', authenticateUser, async (req: CustomRequest, res: Response
   } catch (error) {
     res.status(500).json({ message: 'Opps,Failed to update TODO item' });
   }
-});;..
+});
 
 
 // Delete a TODO item

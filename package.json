@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/server.ts",
-    "test": "echo Running tests... && jest"
+    "test": "echo Running tests... && jest",
+    "lint-staged": "lint-staged",
+   "precommit": "lint-staged"
   },
   "jest": {
     "preset": "ts-jest",
