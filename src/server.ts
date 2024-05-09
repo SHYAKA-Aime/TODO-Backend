@@ -49,13 +49,13 @@ interface CustomRequest extends Request {
 
 
 
-app.get('/', async (req: CustomRequest, res: Response) => {
+app.get ('/', async (req: CustomRequest, res: Response) => {
   try {
     res.status(200).json({"welcome Message":"Welcome to SHYAKA's TODO Backend app"});
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch TODO items' });
   }
-}
+});
 
 
 
