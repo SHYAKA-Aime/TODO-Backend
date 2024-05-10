@@ -58,8 +58,6 @@ app.get ('/', async (req: CustomRequest, res: Response) => {
 });
 
 
-
-
 /**
  * @swagger
  * /signup:
