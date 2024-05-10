@@ -16,8 +16,7 @@ dotenv.config();
 const app = express();
 const port =4000;
 const mongoURI ='mongodb://localhost:27017/todo';
-const aime=12;
-const shyaka=1245
+const aime=12
 
 mongoose.connect(process.env.MONGODB_URI, {
   
